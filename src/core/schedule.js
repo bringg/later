@@ -1,3 +1,5 @@
+const moment = require('moment-timezone');
+
 /**
 * Schedule
 * (c) 2013 Bill, BunKat LLC.
@@ -50,6 +52,15 @@ later.schedule = function(sched) {
 
     startDate = startDate ? new Date(startDate) : new Date();
     if(!startDate || !startDate.getTime()) throw new Error('Invalid start date.');
+
+    var offset = 0;
+    if (sched.tz) {
+      offset = moment.tz.zone(sched.tz).parse(startDate);
+      startDate.setTime(startDate.getTime() - offset*60*1000);
+      if(endDate){
+        endDate.setTime(endDate.getTime() - offset*60*1000);
+      }
+    }
 
     // Step 1: calculate the earliest start dates for each schedule and exception
     setNextStarts(dir, schedules, schedStarts, startDate);
@@ -117,6 +128,12 @@ later.schedule = function(sched) {
     // that were added during the schedule process
     for (var i = 0, len = results.length; i < len; i++) {
       var result = results[i];
+
+      if(sched.tz){
+        offset = moment.tz.zone(sched.tz).parse(startDate);
+        result.setTime(result.getTime() + offset*60*1000);
+      }
+
       results[i] = Object.prototype.toString.call(result) === '[object Array]' ?
         [ cleanDate(result[0]), cleanDate(result[1]) ] :
         cleanDate(result);
