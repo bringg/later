@@ -53,12 +53,10 @@ later.schedule = function(sched) {
     startDate = startDate ? new Date(startDate) : new Date();
     if(!startDate || !startDate.getTime()) throw new Error('Invalid start date.');
 
-    var offset = 0;
     if (sched.tz) {
-      offset = moment.tz.zone(sched.tz).parse(startDate);
-      startDate.setTime(startDate.getTime() - offset*60*1000);
+      startDate = moment(startDate).tz(sched.tz).toDate();
       if(endDate){
-        endDate.setTime(endDate.getTime() - offset*60*1000);
+        endDate = moment(endDate).tz(sched.tz).toDate();
       }
     }
 
@@ -130,8 +128,7 @@ later.schedule = function(sched) {
       var result = results[i];
 
       if(sched.tz){
-        offset = moment.tz.zone(sched.tz).parse(startDate);
-        result.setTime(result.getTime() + offset*60*1000);
+        result = moment(result).tz(sched.tz).toDate();
       }
 
       results[i] = Object.prototype.toString.call(result) === '[object Array]' ?
