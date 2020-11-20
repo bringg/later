@@ -26,6 +26,9 @@ console.log(JSON.stringify({
     "uglify-js": "*",
     "benchmark": "*"
   },
+  "dependencies": {
+    "moment-timezone": "^0.5.32"
+  },
   "license": "MIT",
   "scripts": {
     "test": "./node_modules/.bin/mocha test/**/*-test.js --reporter dot"
