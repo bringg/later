@@ -19,7 +19,7 @@
 * @param {Bool} hasSeconds: True if the expression uses a seconds field
 * @api public
 */
-later.parse.cron = function (expr, hasSeconds) {
+later.parse.cron = function (expr, hasSeconds, tz) {
 
   // Constant array to convert valid names to values
   var NAMES = {
@@ -247,7 +247,7 @@ later.parse.cron = function (expr, hasSeconds) {
   * @param {String} expr: The cron expression to parse
   */
   function parseExpr(expr) {
-    var schedule = {schedules: [{}], exceptions: []},
+    var schedule = {schedules: [{}], exceptions: [], tz: tz},
         components = expr.replace(/(\s)+/g, ' ').split(' '),
         field, f, component, items;
 

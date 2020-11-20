@@ -9,7 +9,7 @@
 * on the 15-20th day of march-dec
 * every 20 seconds every 5 minutes every 4 hours between the 10th and 20th hour
 */
-later.parse.text = function(str) {
+later.parse.text = function(str, tz) {
 
   var recur = later.parse.recur,
       pos = 0,
@@ -285,7 +285,7 @@ later.parse.text = function(str) {
       }
     }
 
-    return {schedules: r.schedules, exceptions: r.exceptions, error: error};
+    return {schedules: r.schedules, exceptions: r.exceptions, error: error, tz: tz};
   }
 
   /**
